@@ -26,6 +26,9 @@ import { RolloverImageDirective } from './rollover-image.directive';
 import { ShowImagesComponent } from './show-images/show-images.component';
 import { FormAppComponent } from './form-app/form-app.component';
 import { PipeBuiltinsComponent } from './pipe-builtins/pipe-builtins.component';
+import { DefaultPipe } from './custom-pipes/default.pipe';
+import { UseCustomPipeComponent } from './use-custom-pipe/use-custom-pipe.component';
+import { CleanPipe } from './custom-pipes/clean.pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,9 @@ import { PipeBuiltinsComponent } from './pipe-builtins/pipe-builtins.component';
     ShowImagesComponent,
     FormAppComponent,
     PipeBuiltinsComponent,
+    DefaultPipe,
+    UseCustomPipeComponent,
+    CleanPipe,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule],
   providers: [],

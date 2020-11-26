@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, interval, Subscription } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 import { PipesModel } from '../models/pipes.model';
 
 @Component({
@@ -6,17 +8,38 @@ import { PipesModel } from '../models/pipes.model';
   templateUrl: './pipe-builtins.component.html',
   styleUrls: ['./pipe-builtins.component.css']
 })
-export class PipeBuiltinsComponent implements OnInit {
+export class PipeBuiltinsComponent implements OnInit, OnDestroy {
   private jsonVal: object;
   title: string;
   pipesData: PipesModel;
+  items = new Array<number>();
+
+  promiseData: string = "hahahaha";
+  promise: Promise<string>;
+
+  observableData: number;
+  observable: Observable<number>;
+  subscription: Subscription = null;
 
   constructor() {
-    let items = new Array<number>();
-    items = [1, 2, 3, 4, 5, 6];
+    this.getPromise().then(data => {
+      this.promiseData = data as string
+      console.log('my data => ' + this.promiseData);
+    });
+
+    //NB: store the subscription so that we can unsubscribe when this component gets destroyed
+    this.subscription = this.getObservable().subscribe(value => this.observableData = value);
+
+    //the async pipe will handle unsubscribing when the observable is no longer needed
+    this.observable = this.getObservable();
+
+    this.promise = this.getPromise();
+    
+    this.items = [1, 2, 3, 4, 5, 6];
 
     this.jsonVal = { moo: 'foo', goo: { too: 'new'} };
     this.title = 'Pipes';
+
     this.pipesData = new PipesModel(
       1234.56,
       new Date(),
@@ -25,12 +48,29 @@ export class PipeBuiltinsComponent implements OnInit {
       'LowerCasing',
       'UpperCasing',
       0.123456,
-      items);
+      this.items);
    }
 
   ngOnInit(): void {
   }
 
+  getPromise(): Promise<string>{
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve('Promise completed!!!'), 2000);
+    });
+  }
+
+  getObservable(): Observable<number>{
+    return interval(1000).pipe(take(10), map((value) => value * value));
+  }
+
+  //unsubscribe from subscriptions when the component is destroyed
+  ngOnDestroy(): void {
+    //check that there is a subscription before unsubscribing
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
+  }
 }
 
 // Pipes: for applying data transformations to data to be showin in templates
@@ -64,5 +104,9 @@ export class PipeBuiltinsComponent implements OnInit {
 // you can even use the slice pipe in a for loop
 
 // Async Pipe => accepts an observable/promise and render the output without having to call the then/subscribe funcs
+// Note: subscribe to Observables & then to Promises: Observable.subscribe() || Promise.then().catch().finally
+// async pipe  for promises: automatically calls then()
+// for observables: automatically calls subscribe() & unsubscribe()
+// makes rendering data from observables and promises on templates easily
 
 

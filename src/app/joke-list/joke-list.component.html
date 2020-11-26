@@ -11,7 +11,7 @@
 >
   <!-- this is because we have set the <ng-content></ng-content> in the child joke component -->
   <span>{{ joke.setup }}</span>
-  <h1>{{ joke.punchLine }}</h1>
+  <h1>{{ joke.punchLine | clean:'boo,damn,hell' }}</h1>
 </app-joke>
 
 <br /><br /><br />

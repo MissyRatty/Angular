@@ -37,13 +37,15 @@ export class JokeListComponent
   jokes: Joke[] = [
     new Joke(
       'What did the cheese say when it looked in the mirror?',
-      'Hello-Me (Halloumi)'
+      'Hillo-Me, well damn !! (Halloumi)'
     ),
     new Joke(
       'What kind of cheese do you use to disguise a small horse?',
-      'Mask-a-pony (Mascarpone)'
+      'boo Mask-a-pony, hell damn !!! (Mascarpone)'
     ),
-    new Joke('Just for Laughs?', 'I used to watch it.lol'),
+    new Joke(
+      'Just for Laughs?', 
+      'hell I used to watch the damn thing.lol'),
   ];
 
   constructor() {

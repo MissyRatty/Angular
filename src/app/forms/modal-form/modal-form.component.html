@@ -1,0 +1,110 @@
+
+<form [formGroup]="myForm" novalidate (ngSubmit)="onFormSubmit()">
+    <fieldset formGroupName="name">
+      <div class="form-group" [ngClass]="{
+        'has-success': firstName.valid && (firstName.dirty || firstName.touched), 
+        'has-danger': firstName.invalid && (firstName.dirty || firstName.touched)}">
+        <label>First Name</label>
+        <input type="text" class="form-control" formControlName="firstName">
+        <div class="form-control-feedback" *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+          <p *ngIf="firstName.errors.required">First name is required</p>
+          <p *ngIf="firstName.errors.maxlength">First name cannot be more than 50 characters</p>
+        </div>
+      </div>
+  
+      <div class="form-group" [ngClass]="{
+        'has-success': lastName.valid && (lastName.dirty || lastName.touched), 
+        'has-danger': lastName.invalid && (lastName.dirty || lastName.touched)}">
+        <label>Last Name</label>
+        <input type="text" class="form-control" formControlName="lastName">
+        <div class="form-control-feedback" *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+          <p *ngIf="lastName.errors.required">Last name is required</p>
+          <p *ngIf="lastName.errors.maxlength">Last name cannot be more than 50 characters</p>
+        </div>
+      </div>
+    </fieldset>
+  
+    <div class="form-group" 
+         [ngClass]="{
+           'has-success': email.valid && (email.dirty || email.touched), 
+           'has-danger': email.invalid && (email.dirty || email.touched)
+          }">
+      <label>Email</label>
+      <input type="email" class="form-control" formControlName="email">
+      <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+        <p *ngIf="email.errors.required">Email is required</p>
+        <p *ngIf="email.errors.pattern">Email must have the @ character</p>
+      </div>
+
+      <pre>Dirty? (false if user hasn't changed value of control | True when user changes value of control )? 
+         <strong>
+             {{myForm.controls.email.dirty}}
+         </strong>
+      </pre>
+
+      <pre>Pristine? (false if user has changed value | True when user hasn't changed value ) ? 
+          <strong>
+              {{myForm.controls.email.pristine}}
+          </strong>
+      </pre>
+
+      <pre>Touched? (True if user focused on the control and then focused unto sumfin else | else its false)? 
+          <strong>
+            {{myForm.controls.email.touched}}
+          </strong>
+      </pre>
+
+      <pre>Untouched? (True if user focus has never been on the control | False if user focus has been on the control before) ?
+          <strong>
+            {{myForm.controls.email.untouched}}
+          </strong> 
+      </pre>
+
+      <pre>Valid? (True if form validation has no errors Or form control has no validation checks | False if form is invalid)? 
+        <strong>
+          {{myForm.controls.email.valid}}
+        </strong>
+    </pre>
+
+    <pre>Invalid? (True if form validation has errors | False if form is valid) ?
+        <strong>
+          {{myForm.controls.email.invalid}}
+        </strong> 
+    </pre>
+    </div>
+  
+    <div class="form-group" 
+        [ngClass]="{
+          'has-success': password.valid && (password.dirty || password.touched), 
+          'has-danger': password.invalid && (password.dirty || password.touched)
+        }">
+      <label>Password</label>
+      <input type="password" class="form-control" formControlName="password">
+      <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+        <p *ngIf="password.errors.required">Password is required</p>
+        <p *ngIf="password.errors.minlength">Password must be at least 8 characters long</p>
+      </div>
+    </div>
+  
+    <div class="form-group" 
+        [ngClass]="{
+          'has-success': language.valid && (language.dirty || language.touched), 
+          'has-danger': language.invalid && (language.dirty || language.touched)
+         }">
+      <label>Language</label>
+      <select class="form-control" formControlName="language">
+        <option value="">Please select a language</option>
+        <option *ngFor="let lang of langs" [value]="lang.code">{{lang.fullname}}</option>
+      </select>
+      <div class="form-control-feedback" *ngIf="language.invalid && (language.dirty || language.touched)">
+        <p>Language is required</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button [disabled]="myForm.invalid" type="submit" class="btn btn-primary">Submit</button>
+      <button type="reset" class="btn btn-danger" (click)="onFormCancel()">Cancel</button>
+    </div>
+  </form>
+
+  <pre>{{myForm.value | json }}</pre>

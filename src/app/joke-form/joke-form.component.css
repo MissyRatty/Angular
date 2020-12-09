@@ -1,5 +1,5 @@
 .card {
-  background-color: grey;
+  background-color:darkgray;
 }
 
 /* by default component styles are encapsulated which makes sure that the css for a component does not leak into other components */

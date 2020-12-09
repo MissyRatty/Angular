@@ -109,10 +109,10 @@ export class JokeListComponent
   //   this.jokes = [];
   // }
 
-  // addJoke(joke: Joke) {
-  //   //unshift is like a preprend( adds the item to the top of the array heap/stack not bottom, bottom is what push does)
-  //   this.jokes.unshift(joke);
-  // }
+  addJoke(joke: Joke) {
+    //unshift is like a preprend( adds the item to the top of the array heap/stack not bottom, bottom is what push does)
+    this.jokes.unshift(joke);
+  }
 
   // deleteJoke(joke: Joke) {
   //   let jokeToDeleteIndex = this.jokes.indexOf(joke);

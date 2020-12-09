@@ -1,27 +1,40 @@
 <div class="card card-block">
   <h4 class="card-title">Create Joke</h4>
-  <div class="form-group">
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Enter the setup"
-      #setup
-    />
-  </div>
-  <div class="form-group">
-    <!--template local var: #punchLine and #setup-->
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Enter the punchline"
-      #punchLine
-    />
-  </div>
-  <button
-    type="button"
-    class="btn btn-primary"
-    (click)="createJoke(setup.value, punchLine.value)"
-  >
-    Create
-  </button>
+
+  <form [formGroup]="jokeForm" (ngSubmit)="createJoke(setup.value, punchLine.value)" novalidate>
+    <div class="form-group" [ngClass]="{
+      'has-success': jokeSetup.valid && (jokeSetup.dirty || jokeSetup.touched),
+      'has-danger': jokeSetup.invalid && (jokeSetup.dirty || jokeSetup.touched)}">
+
+      <input type="text" class="form-control" placeholder="Enter the setup" #setup 
+      formControlName="jokeSetup" />
+
+      <div class="form-control-feedback" *ngIf="jokeSetup.errors && (jokeSetup.dirty || jokeSetup.touched)">
+        <p *ngIf="jokeSetup.errors.required">Joke setup is required</p>
+        <p *ngIf="jokeSetup.errors.maxlength">Joke setup cannot be more than 50 characters</p>
+      </div>
+
+    </div>
+    <div class="form-group" [ngClass]="{
+      'has-success': jokePunchLine.valid && (jokePunchLine.dirty || jokePunchLine.touched),
+      'has-danger': jokePunchLine.invalid && (jokePunchLine.dirty || jokePunchLine.touched)}">
+
+      <!--template local var: #punchLine and #setup-->
+      <input type="text" class="form-control" placeholder="Enter the punchline" #punchLine  
+      formControlName="jokePunchLine"/>
+
+      <div class="form-control-feedback" *ngIf="jokePunchLine.errors && (jokePunchLine.dirty || jokePunchLine.touched)">
+        <p *ngIf="jokePunchLine.errors.required">Joke punchline is required</p>
+        <p *ngIf="jokePunchLine.errors.maxlength">Joke punchline cannot be more than 50 characters</p>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="jokeForm.invalid">
+      Create
+    </button>
+
+    <button type="reset" class="btn btn-danger">
+      Cancel
+    </button>
+  </form>
+  
 </div>

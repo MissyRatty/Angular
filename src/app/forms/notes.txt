@@ -1,0 +1,105 @@
+Model Driven Forms:
+<form novalidate> : by default, browsers do their own validations and show some error pop ups. To turn this behavior off, 
+                    add the novalidate attribute to the form. Signifying that you don't want the browser to do any validations 
+                    cause you will handle validations customarily.
+
+
+ In the component: represent the whole form as a modal form made up of instances of FormGroups and FormControls  
+
+ To bind your local instance of the Form (using FormGroup) to the Form in the Html( 
+     use the [formGroup] = "NameOfYourFormGroupInstanceInTheComponent") directive from the ReactiveFormsModule  
+     import this ReactiveFormsModule from angular/forms in the app.modules.ts at the top and add to the import collection of modules  
+
+
+     to bind the individual the controls in the [formGroup], use the formControlName = "TheNameOfTheControlSpecifiedInTheComponent"
+     if a formControl is in a nested formGroup then append the nested formGroup with formGroupName="NestedFormGroupNameSpecifiedInTheComponent"  
+     and give each control the formControlName directive = "formControlNameSpecifiedInComponent";
+
+     Directives:
+     formGroup, formGroupName, formControlName (used in the html to bind to the FormGroup and FormControl in the component)  
+
+
+     Form Validation:
+     Validators are rules that an input control has to adhere to and if the input value doesn't match the rule then its considered invalid
+
+     Form Control Validation States: : myForm.controls.email.dirty,myForm.controls.email.pristine etc 
+     dirty = checks if the user made changes to the original state of the value of the control (T/F) 
+     pristine = checks if the value is still in its original state (T/F) 
+     touched = checks if control received focus and then the focus was moved to something else (this doesn't check if the user has changed the control value/ it just checks control focusness)
+     untouched = checks if the control has received focus before
+     valid = checks valid state of the control
+     invalid = checks invalid state of the control
+
+     //Add a check for dirty Or touched e.g.:(myForm.controls.language.dirty || myForm.controls.language.touched)
+     //for for formValidity to make sure that on form load, the form controls don't show the has-danger
+
+     //To show helpful messages on how to make the form valid again
+     Use the formControl.errors.ValidatorKeyName: e.g.: password.errors.required / password.errors.minlength
+
+     //Submit Current State & Reset Form to Original State
+     Add button with type="submit"
+     Bind form to the output event (ngSubmit)="FuncFromComponentWeWantToCall"
+
+
+
+
+Reactive Model Driven Forms: Used when there needs to be a real-time processing of the form (as the user types in something call a search on an api endpoint)
+- formControl directive
+- FormGroup & FormControl observables
+- debounceTime & distinctUntilChanged rxjs operators: 
+    1. debounceTime = wait for a certain milliseconds to emit a value (but only emit it when you haven't received any new values within that waiting time frame)
+    2. distinctUntilChanged = Only emit when the current value is different than the last
+
+
+
+Template Driven Forms:
+This is the simplest but it uses Model Driven forms under the hood just that the model binding is done automatically for you.
+Uses ngModel directive to bind template input controls to props on the component
+Form Validation Template driven approach (& Submitt and Resettting)
+
+Directives needed for template driven forms are in the FormsModule (not the ReactiveFormsModule)
+<form> tag by default gives us an instance of the ngForm from angular, so we use the template variable to store that instance of the form
+e.g.: <form novalidate #myForm="ngForm">
+
+ngForm creates an upper level formGroup (represents the form) for us by default but its an empty new FormGroup({});
+so we will have to explicitly instruct it to create our form controls
+we do this by adding ngModel directive and a name="nameOfFormControl" to the input control
+e.g.: <input type="text" name="firstName" ngModel/>
+The name is used to store the key of the formControl under the parent formControl group
+
+you can set up two-way data binding between form control and prop on the component
+
+
+Two-way Binding:
+<input type="text" name="firstName" [ngModel] = "firstName" (ngModelChange)="firstName = $event" />
+
+shortcut:[(  )] this is the box of bananas syntax
+
+<input type="text" name="firstName" [(ngModel)] = "firstName" />
+
+
+Validators: are done through directives and html attributes in the template
+
+to be safe use the elvis operator (nullable question Mark ?) as the formcontrols could be null when angular is creating them
+
+Notes:
+- The ngForm directive automagically attaches to the html <form> tag and creates a FormGroup
+- ngModel also creates FormControls automagically and allows for two way data binding
+- use domain model to store form state
+- validate, submit & reset
+
+Pros & Cons:
+Template Vs Model Driven Forms
+- Template is easier to set up cause of all the automagic model bindings that Angular does under the hood for you.
+   You don't have to create local instances of your formGroups, formControls, Add validators etc in the component
+   However, you have to do those using directives in the html template itself
+
+   Gives you 2 way data-binding between the html input controls and a domain model in your component using the ngModel directive.
+
+   Bad:
+   The logic of the form resides in the html which means you require a complex test setup  (end -to -end testing) with browser simulating user interactions
+
+
+
+   Model:
+   Definition of form and most of the logic resides in the component as javascript (so can be unit tested in isolation from the html template)

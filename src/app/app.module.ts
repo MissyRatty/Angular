@@ -29,6 +29,9 @@ import { PipeBuiltinsComponent } from './pipe-builtins/pipe-builtins.component';
 import { DefaultPipe } from './custom-pipes/default.pipe';
 import { UseCustomPipeComponent } from './use-custom-pipe/use-custom-pipe.component';
 import { CleanPipe } from './custom-pipes/clean.pipe';
+import { ModalFormComponent } from './forms/modal-form/modal-form.component';
+import { ReactiveModelFormComponent } from './forms/reactive-model-form/reactive-model-form.component';
+import { TemplateDrivenFormsComponent } from './forms/template-driven-forms/template-driven-forms.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +58,9 @@ import { CleanPipe } from './custom-pipes/clean.pipe';
     DefaultPipe,
     UseCustomPipeComponent,
     CleanPipe,
+    ModalFormComponent,
+    ReactiveModelFormComponent,
+    TemplateDrivenFormsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule],
   providers: [],

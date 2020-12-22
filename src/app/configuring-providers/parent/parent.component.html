@@ -1,0 +1,18 @@
+<div class="parent">
+<p>Parent</p>
+<form novalidate>
+    <div class="form-group">
+
+        <!---two way binding on simpleService.value-->
+        <!--so when the value of the text box changes, the child.component's display value will change-->
+        <!--as its displaying the current value of simpleService.value-->
+        <input type="text" class="form-control" name="value" [(ngModel)]="simpleService.value" />
+    </div>
+</form>
+
+<!-- <app-child></app-child> -->
+
+<!--let's project the child component contents into this parent by using <ng-content></ng-content>-->
+<!--This makes them content-children instead of ViewChildren-->
+<ng-content></ng-content>
+</div>

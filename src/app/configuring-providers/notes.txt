@@ -1,0 +1,74 @@
+Providers can be configured in 3 main places in Angular, namely:
+
+- NgModule.Providers[]: configure services here if you want to have one instance (Singleton) of the service through out the whole application
+
+- Component/Directive.Providers[] prop: if you want parent-child components to share the same instance of a service, 
+                                        you configure the service in the parent components provider
+
+
+
+- Component.ViewProviders[] prop: This creates an instance of the dependency that will only be available to the configured component and its viewChildren
+ but content-Children will not share that same instance of the dependency
+
+
+ Providers                              Injector tree                   Compo tree
+ SimpleService2  providers =>           NgModule(top-level Injector) 
+
+ SimpleService2 componentProviders =>  Parent Injector                 <== Parent
+                                                |                             "
+                                                |                             "
+                                                |                             "
+                                                |                             "
+                                        Child Injector                  <=== Child 
+
+
+
+
+                                                          
+SimpleService2 viewProviders =>         Parent Injector             <== Parent
+                                                                        "
+                                                                        "
+                                                                        "
+                                                                        "
+                                        Child Injector               <=== Child  (viewChildren)   
+
+
+
+
+
+SimpleService2 viewProviders =>         Parent Injector             <== Parent
+                                                                        
+
+                                        Child Injector          <=== Child  (content-child)
+                                             "
+                                             "
+                                             "
+                                             "
+                                             "
+                                    NgModule(top-level Injector) 
+
+
+
+
+
+Summary:
+- Share the same instance of a dependency globally through out the application, 
+   = use NgModule.Providers
+
+
+- Share same instance of the dependency between the component and its children (viewChildren & contentChildren)
+   = use Component.Providers  
+
+
+- Share same instance of a dependency between component and only its viewChildren ()
+   = use Component.viewProviders    
+
+
+
+  DI Advans:
+  - To architect application in a way that code is can be re-used, 
+  - tested easily
+  - easy to maintain
+  - decouples code from its dependencies
+  - it uses Inversion of Control (so the process of resolving dependencies for dependant codes is done easily and delegated to the IoC) 
+  - 

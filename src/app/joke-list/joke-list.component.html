@@ -1,13 +1,13 @@
 <!--output event binding (jokeCreated)="addJoke($event)"-->
 <!--in addJoke($event), the $event is a special variable that will hold whatever object the jokeCreated emitter emitted from joke-form component-->
-<app-joke-form (jokeCreated)="addJoke($event)"></app-joke-form>
+<app-joke-form (jokeCreated)="jokeService.addJoke($event)"></app-joke-form>
 
 <!-- child component -->
 <h4 #header>View Jokes</h4>
 <app-joke
-  *ngFor="let joke of jokes"
+  *ngFor="let joke of jokeService.jokes"
   [joke]="joke"
-  (jokeDeleted)="deleteJoke($event)"
+  (jokeDeleted)="jokeService.deleteJoke($event)"
 >
   <!-- this is because we have set the <ng-content></ng-content> in the child joke component -->
   <span>{{ joke.setup }}</span>

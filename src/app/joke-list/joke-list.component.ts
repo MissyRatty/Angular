@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { Joke } from '../models/joke.model';
 import { JokeComponent } from '../joke/joke.component';
+import { JokeService } from '../joke/joke.service';
 
 @Component({
   selector: 'app-joke-list',
@@ -34,21 +35,7 @@ export class JokeListComponent
   @ContentChild(JokeComponent) jokeContentChild: JokeComponent;
   @ContentChildren(JokeComponent) jokeContentChildren: QueryList<JokeComponent>;
 
-  jokes: Joke[] = [
-    new Joke(
-      'What did the cheese say when it looked in the mirror?',
-      'Hillo-Me, well damn !! (Halloumi)'
-    ),
-    new Joke(
-      'What kind of cheese do you use to disguise a small horse?',
-      'boo Mask-a-pony, hell damn !!! (Mascarpone)'
-    ),
-    new Joke(
-      'Just for Laughs?', 
-      'hell I used to watch the damn thing.lol'),
-  ];
-
-  constructor() {
+  constructor(private jokeService: JokeService) {
     //this will log out undefined:
     //since by this time, the children of this component's view wouldn't have been rendered yet
     //Angular renders in a Tree-Down approach, so when this parent Joke-List component is getting rendered,
@@ -58,7 +45,21 @@ export class JokeListComponent
     console.log(`new -jokeContentChild is ${this.jokeContentChild}`);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.jokeService.jokes = [
+      new Joke(
+        'What did the cheese say when it looked in the mirror?',
+        'Hillo-Me, well damn !! (Halloumi)'
+      ),
+      new Joke(
+        'What kind of cheese do you use to disguise a small horse?',
+        'boo Mask-a-pony, hell damn !!! (Mascarpone)'
+      ),
+      new Joke(
+        'Just for Laughs?', 
+        'hell I used to watch the damn thing.lol')
+    ];
+  }
 
   //hooking into view children
   ngAfterViewInit(): void {
@@ -84,6 +85,7 @@ export class JokeListComponent
 
     console.log(jokes);
   }
+
   // constructor() {
   //   this.jokes = [
   //     new Joke(
@@ -109,17 +111,23 @@ export class JokeListComponent
   //   this.jokes = [];
   // }
 
-  addJoke(joke: Joke) {
-    //unshift is like a preprend( adds the item to the top of the array heap/stack not bottom, bottom is what push does)
-    this.jokes.unshift(joke);
-  }
+  // addJoke(joke: Joke) {
+  //   //unshift is like a preprend( adds the item to the top of the array heap/stack not bottom, bottom is what push does)
+  //   this.jokes.unshift(joke);
+
+  //   this.jokeService.addJoke(joke);
+  // }
 
   // deleteJoke(joke: Joke) {
+  //   this.jokeService.deleteJoke(joke);
+
   //   let jokeToDeleteIndex = this.jokes.indexOf(joke);
   //   if (jokeToDeleteIndex > -1) {
+  //     //at position jokeToDeleteIndex, remove 1 item from the jokes array
   //     this.jokes.splice(jokeToDeleteIndex, 1);
   //   }
   // }
+
 }
 
 //view child are elements used within the component itself, We use the ViewChild decorator to access these view children

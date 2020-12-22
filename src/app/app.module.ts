@@ -32,6 +32,15 @@ import { CleanPipe } from './custom-pipes/clean.pipe';
 import { ModalFormComponent } from './forms/modal-form/modal-form.component';
 import { ReactiveModelFormComponent } from './forms/reactive-model-form/reactive-model-form.component';
 import { TemplateDrivenFormsComponent } from './forms/template-driven-forms/template-driven-forms.component';
+import { DependencyInjectionExampleComponent } from './dependency-injection-examples/dependency-injection-example/dependency-injection-example.component';
+import { SimpleComponent } from './service-examples/simple/simple.component';
+import { SimpleService } from './service-examples/simple-service';
+import { OtherService } from './service-examples/other-service';
+import { ChildComponent } from './configuring-providers/child/child.component';
+import { ParentComponent } from './configuring-providers/parent/parent.component';
+import { SimpleService2 } from './configuring-providers/simple-service';
+import { JokeService } from './joke/joke.service';
+import { MAX_JOKES_TOKEN } from './joke/joke.constants';
 
 @NgModule({
   declarations: [
@@ -61,9 +70,19 @@ import { TemplateDrivenFormsComponent } from './forms/template-driven-forms/temp
     ModalFormComponent,
     ReactiveModelFormComponent,
     TemplateDrivenFormsComponent,
+    DependencyInjectionExampleComponent,
+    SimpleComponent,
+    ChildComponent,
+    ParentComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule],
-  providers: [],
+  providers: [
+    SimpleService, 
+    OtherService, 
+    SimpleService2, 
+    JokeService, 
+    { provide: MAX_JOKES_TOKEN, useValue: 4 }
+  ], //these services will be available in the app top level injector
   bootstrap: [AppComponent], // root component for our application
 })
 export class AppModule {}

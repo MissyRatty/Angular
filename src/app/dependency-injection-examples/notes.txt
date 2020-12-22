@@ -1,0 +1,52 @@
+Dependency Injection Framework in Angular:
+
+4 parts to it, namely:
+- Token: uniquely identifies a Dependency we want to inject (more like a unique identifier for the Dependency)
+
+
+
+- Dependency: The actual code we want to inject / want injected into another code
+
+
+
+
+- Provider: A map between a token and a list of dependencies
+
+
+
+- Injector: A func that takes in a token and returns the associated list of dependencies for that token.
+The process of passing the token => injector => to return the dependency is Dependency Resolution (i.e.: the IoC is resolving the dependencies)
+
+Things to know:
+- Angular DI Framework under the hood
+- Injectors & child Injectors
+- Decorators: @Inject & @Injectable
+- Types of dependencies
+- Configure DI in Angular with (Angular module providers, component provider, component view providers)
+
+
+
+Injectors:
+Dependency caching: all dependencies provided by an injector (resolved by an injector is cached, therefore multiple calls to the same injector 
+for the same dependency returns the same instance of the dependency)
+
+
+
+Providers:
+- Configure injectors with providers
+- 4 types of dependencies we can configure a provider to provide
+
+
+
+Tokens:
+- 3 ways to define tokens in Angular when configuring providers
+   1. A String (but its not recommended)
+   2. A Type (e.g.: className as the type)
+   3. An instance of an Injection Token (used to be Opaque Token but that's deprecated)
+
+
+
+
+   Injector Tree & Component Tree
+   How to configure Injectors
+   @Inject and @Injectable decorators

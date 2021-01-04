@@ -1,4 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClient, HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -41,6 +43,10 @@ import { ParentComponent } from './configuring-providers/parent/parent.component
 import { SimpleService2 } from './configuring-providers/simple-service';
 import { JokeService } from './joke/joke.service';
 import { MAX_JOKES_TOKEN } from './joke/joke.constants';
+import { HttpExampleComponent } from './angular-core-http-api/http-example/http-example.component';
+import { HttpWithPromisesExampleComponent } from './angular-core-http-api/http-with-promises-example/http-with-promises-example.component';
+import { SearchService } from './angular-core-http-api/http-with-promises-example/services/search.service';
+import { HttpWithObservablesExampleComponent } from './angular-core-http-api/http-with-observables-example/http-with-observables-example.component';
 
 @NgModule({
   declarations: [
@@ -74,14 +80,19 @@ import { MAX_JOKES_TOKEN } from './joke/joke.constants';
     SimpleComponent,
     ChildComponent,
     ParentComponent,
+    HttpExampleComponent,
+    HttpWithPromisesExampleComponent,
+    HttpWithObservablesExampleComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule, HttpClientModule, HttpClientJsonpModule],
   providers: [
     SimpleService, 
     OtherService, 
     SimpleService2, 
     JokeService, 
-    { provide: MAX_JOKES_TOKEN, useValue: 4 }
+    { provide: MAX_JOKES_TOKEN, useValue: 4 },
+    HttpClient,
+    SearchService
   ], //these services will be available in the app top level injector
   bootstrap: [AppComponent], // root component for our application
 })

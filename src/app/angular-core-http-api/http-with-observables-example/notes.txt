@@ -1,0 +1,4 @@
+JSONP, to by pass CORS
+- This treats the api as if it was a Js file so it essentially adds a <script src="apiUrl"/>
+- Can only use this if the api supports JSONP
+- Can only work for GET requests

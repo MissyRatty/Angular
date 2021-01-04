@@ -1,0 +1,34 @@
+Aim of this section is to know how to:
+
+- Inject & use Http client lib
+- Send diff types of HTTP requests (GET, POST, PUT, DELETE etc)
+- Add Custom headers to http requests
+- Handle errors from Http requests
+
+
+
+Http Client Lib in Angular is a service that can be injected into our component classes to use (DI)
+- To use the angular Http client lib, you have to import the HttpModule (which already sets up an NgModule (with the provider (http services needed to perform http actions)))
+
+
+For POST, PUT & DELETE Requests, the browser first sends an OPTIONS request to the server, to ascertain if the client is allowed to perform the requested request
+before it will perform the request.
+
+NOTE: Browser doesn't do that for GET requests
+
+
+If error handling is done in a promise, use the then().catch()
+If error handling is done in an observable, use the second param in the subscribe as the error handler, 
+e.g.: subscribe(
+                 response => console.log(response), 
+                 error => console.error(error)
+               )
+
+
+
+Http Headers:
+These are meta-data that a browser attaches to http requests when its sent to the server. e.g.:   Ip address, type of browser being used, host, origin etc
+Some api's may require that some custom headers be added to requests  
+In Angular Http Client lib, use the RequestOptions & Headers
+
+e.g.: sending an AuthHeader with a request in Angular, the btoa js func will convert all strings to base64 for you

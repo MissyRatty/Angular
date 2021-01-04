@@ -1,0 +1,89 @@
+<h3>Using ITunes Search API - With Observables - Option 1</h3>
+<br>
+
+<!-- OPTION 1 & 2 -->
+<form class="from-inline">
+    <div class="form-group">
+        <input type="search" class="form-control" placeholder="Enter text to search" #search/>
+    </div>
+
+    <button class="btn btn-primary" (click)="handleSearch(search.value)">Search
+    </button>
+</form>
+<br>
+
+<div class="text-center">
+    <p class="lead" *ngIf="isSearchLoading">
+        <strong>Loading....</strong>
+    </p>
+</div>
+
+<!-- OPTION 1 -->
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let result of searchResults">
+        <img [src]="result.thumbnail" class="img-circle"/>
+        <a target="_blank" href="{{result.trackLink}}">{{result.trackName}}</a>
+    </li>
+</ul>
+
+<br>
+<hr/>
+
+
+<h3>Using ITunes Search API - With Observables - Async Pipes - Option 2</h3>
+<br>
+
+<form class="from-inline">
+    <div class="form-group">
+        <input type="search" class="form-control" placeholder="Enter text to search" #searchTerm/>
+    </div>
+
+    <button class="btn btn-primary" (click)="handleSearch2(searchTerm.value)">Search
+    </button>
+</form>
+<br>
+
+<div class="text-center">
+    <p class="lead" *ngIf="isSearchLoading">
+        <strong>Loading....</strong>
+    </p>
+</div>
+<!-- OPTION 2 using Async Pipe to subscribe and unsubscribe from an observable / when the component is destroyed, it will automagically unsubscribe from the Observable too-->
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let result of results | async">
+        <img [src]="result.thumbnail" class="img-circle"/>
+        <a target="_blank" href="{{result.trackLink}}">{{result.trackName}}</a>
+    </li>
+</ul>
+
+<br>
+<hr>
+
+
+<h3>Using ITunes Search API - With Observables - Reactive Forms - Option 3</h3>
+<br>
+<!-- OPTION 3 using a reactive-form, and perform the search as we type into the search box -->
+<!-- using the formControl directive to link the instance of the formControl in the Component (searchField) to the actual formControl on the form -->
+<form class="from-inline">
+    <div class="form-group">
+        <input type="search" class="form-control" placeholder="Enter text to search" [formControl]="searchField"/>
+    </div>
+</form>
+<br>
+
+<div class="text-center">
+    <p class="lead" *ngIf="isSearchLoading">
+        <strong class="text-primary">Loading....</strong>
+    </p>
+    <p class="lead" *ngIf="isError">
+        <strong class="text-danger">An error happened, please try again later</strong>
+    </p>
+</div>
+
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let result of searchResults2 | async">
+        <img [src]="result.thumbnail" class="img-circle"/>
+        <a target="_blank" href="{{result.trackLink}}">{{result.trackName}}</a>
+    </li>
+</ul>
+

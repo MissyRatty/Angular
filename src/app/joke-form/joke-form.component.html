@@ -6,6 +6,7 @@
       'has-success': jokeSetup.valid && (jokeSetup.dirty || jokeSetup.touched),
       'has-danger': jokeSetup.invalid && (jokeSetup.dirty || jokeSetup.touched)}">
 
+      <!--template local var: #setup-->
       <input type="text" class="form-control" placeholder="Enter the setup" #setup 
       formControlName="jokeSetup" />
 
@@ -19,7 +20,7 @@
       'has-success': jokePunchLine.valid && (jokePunchLine.dirty || jokePunchLine.touched),
       'has-danger': jokePunchLine.invalid && (jokePunchLine.dirty || jokePunchLine.touched)}">
 
-      <!--template local var: #punchLine and #setup-->
+      <!--template local var: #punchLine-->
       <input type="text" class="form-control" placeholder="Enter the punchline" #punchLine  
       formControlName="jokePunchLine"/>
 

@@ -1,0 +1,57 @@
+<h3>Http Example 1</h3>
+<br>
+
+<div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-success" (click)="doGet()">
+            <strong>
+                GET
+            </strong>
+        </button>
+
+        <button class="btn btn-primary" (click)="doPost()"> 
+            <strong>POST</strong>
+        </button>
+    
+        <button class="btn btn-warning" (click)="doPut()">
+            <strong>PUT</strong>
+        </button>
+   
+        <button class="btn btn-danger" (click)="doDelete()">
+           <strong>DELETE</strong>
+        </button>
+    </div>
+        
+</div>
+
+<br>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-primary" (click)="doGetAsPromise()">
+            <strong>As Promise</strong>
+        </button>
+    
+        <button class="btn btn-warning" (click)="doGetAsPromiseError()">
+            <strong>Error as Promise</strong> 
+        </button>
+    
+        <button class="btn btn-danger" (click)="doGetAsObservableError()">
+            <strong>Error as Observable</strong>
+        </button>
+
+    </div>
+        
+</div>
+
+<br>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-secondary" (click)="doGetWithHeaders()">
+            <strong>With Headers</strong>
+        </button>
+    </div>
+</div>

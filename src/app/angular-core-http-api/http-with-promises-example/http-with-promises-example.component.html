@@ -1,0 +1,24 @@
+<h3>Using ITunes Search API - With Promises</h3>
+<br>
+<form class="from-inline">
+    <div class="form-group">
+        <input type="search" class="form-control" placeholder="Enter text to search" #search/>
+    </div>
+
+    <button class="btn btn-primary" (click)="handleSearch(search.value)">Search
+    </button>
+</form>
+<br>
+
+<div class="text-center">
+    <p class="lead" *ngIf="isSearchLoading">
+        <strong>Loading....</strong>
+    </p>
+</div>
+
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let track of searchService.results">
+        <img [src]="track.thumbnail" class="img-circle"/>
+        <a target="_blank" href="{{track.trackLink}}">{{track.trackName}}</a>
+    </li>
+</ul>

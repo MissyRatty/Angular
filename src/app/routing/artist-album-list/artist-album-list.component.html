@@ -1,0 +1,15 @@
+
+<div class="text-center">
+    <p class="lead" *ngIf="isLoading">
+        <strong class="text-info">Loading....</strong>
+    </p>
+</div>
+        
+<!-- this shows the album cover image & and album name which when clicked takes you to the album on iTunes -->
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let album of artistAlbums">
+        <img [src]="album.AlbumUrl" class="img-thumbnail"/>
+        <a target="_blank" href="{{album.AlbumCover}}">{{album.AlbumName}}</a>
+    </li>
+</ul>
+

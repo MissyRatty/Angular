@@ -47,6 +47,13 @@ import { HttpExampleComponent } from './angular-core-http-api/http-example/http-
 import { HttpWithPromisesExampleComponent } from './angular-core-http-api/http-with-promises-example/http-with-promises-example.component';
 import { SearchService } from './angular-core-http-api/http-with-promises-example/services/search.service';
 import { HttpWithObservablesExampleComponent } from './angular-core-http-api/http-with-observables-example/http-with-observables-example.component';
+import { SearchComponent } from './routing/search/search.component';
+import { HeaderComponent } from './routing/header/header.component';
+import { HomeComponent } from './routing/home/home.component';
+import { ErrorComponent } from './routing/error/error.component';
+import { ArtistComponent } from './routing/artist/artist.component';
+import { ArtistTrackListComponent } from './routing/artist-track-list/artist-track-list.component';
+import { ArtistAlbumListComponent } from './routing/artist-album-list/artist-album-list.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +90,13 @@ import { HttpWithObservablesExampleComponent } from './angular-core-http-api/htt
     HttpExampleComponent,
     HttpWithPromisesExampleComponent,
     HttpWithObservablesExampleComponent,
+    SearchComponent,
+    HeaderComponent,
+    HomeComponent,
+    ErrorComponent,
+    ArtistComponent,
+    ArtistTrackListComponent,
+    ArtistAlbumListComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule, HttpClientModule, HttpClientJsonpModule],
   providers: [

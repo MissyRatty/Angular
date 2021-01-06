@@ -1,0 +1,14 @@
+
+<div class="text-center">
+    <p class="lead" *ngIf="isLoading">
+        <strong class="text-info">Loading....</strong>
+    </p>
+</div>
+    
+<!-- this shows the track image & and track name which when clicked takes you to the track on iTunes -->
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let track of artistTracks">
+        <img [src]="track.artworkUrl30" class="img-circle"/>
+        <a target="_blank" href="{{track.trackViewUrl}}">{{track.trackName}}</a>
+    </li>
+</ul>

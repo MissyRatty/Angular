@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SearchArtistAlbum } from '../models/search-artist-album.model';
+import { SearchArtistTrack } from '../models/search-artist-track.model';
+import { SearchArtistItem } from '../models/search-artist.model';
 import { SearchItem } from '../models/search-item.model';
 
 @Injectable({
@@ -11,6 +14,13 @@ import { SearchItem } from '../models/search-item.model';
 export class SearchService {
   apiRootValue: string = environment.iTunesApiRoot;
   results: SearchItem[] = [];
+
+  results2: SearchItem[] = [];
+ 
+
+  artistDetailsResults: SearchArtistItem[] = [];
+  artistTracksResults: SearchArtistTrack[] = [];
+  artistAlbumsResults: SearchArtistAlbum[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -77,5 +87,117 @@ export class SearchService {
         return searchResults;
       })
     );
+  }
+
+  handleSearchAsPromiseJsonP(searchTerm: string): Promise<SearchItem[]> {
+    console.log(`service searching for ${searchTerm}`, this.httpClient);
+
+    let promise = new Promise<SearchItem[]>((resolve, reject) => {
+      
+      let apiUrl = `${this.apiRootValue}/search?term=${searchTerm}&media=music&limit=20`;
+
+     this.httpClient.jsonp(apiUrl, 'callback')
+      .toPromise()
+      .then((response: any) => {
+        // map here is an array func (works like the forEach)
+        this.results2 = response.results.map((item: {trackName: string, artistName: string, trackViewUrl: string, artworkUrl30: string, artistId: string}) => {
+          return new SearchItem(item.trackName, item.trackViewUrl, item.artistName, item.artistId, item.artworkUrl30);
+        });
+
+        console.log(this.results2);
+        resolve([]);
+      })
+      .catch(error =>  {
+        console.error(`Error: ${error.status} ${error.statusText}`);
+        reject('error');
+      });
+    });
+
+    return promise;
+
+  }
+
+  getArtistDetailsById(artistId: string): Promise<SearchArtistItem[]> {
+
+    let promise = new Promise<SearchArtistItem[]>((resolve, reject) => {
+      
+      let apiGetArtistDetailsUrl: string = `${this.apiRootValue}/lookup?id=${artistId}`;
+
+     this.httpClient.jsonp(apiGetArtistDetailsUrl, 'callback')
+      .toPromise()
+      .then((response: any) => {
+
+        // map here is an array func (works like the forEach)
+        this.artistDetailsResults = response.results.map((item: { artistId: string, artistName: string, artistLinkUrl: string, primaryGenreName: string }) => {
+          return new SearchArtistItem(item.artistId, item.artistName, item.artistLinkUrl, item.primaryGenreName);
+        });
+
+        console.log(this.artistDetailsResults);
+        resolve([]);
+      })
+      .catch(error =>  {
+        console.error(`Error: ${error.status} ${error.statusText}`);
+        reject('error');
+      });
+    });
+
+    return promise;
+  }
+
+  getTracksByArtistId(artistId: string): Promise<SearchArtistTrack[]> {
+
+    let promise = new Promise<SearchArtistTrack[]>((resolve, reject) => {
+      
+      let apiGetTracksUrl: string = `${this.apiRootValue}/lookup?id=${artistId}&entity=song`;
+
+     this.httpClient.jsonp(apiGetTracksUrl, 'callback')
+      .toPromise()
+      .then((response: any) => {
+
+        // map here is an array func (works like the forEach)
+        this.artistTracksResults = response.results.map((item: { trackName: string, artistName: string, trackViewUrl: string, artworkUrl30: string, artistId: string }) => {
+          return new SearchArtistTrack(item.artistId, item.trackName, item.trackViewUrl, item.artworkUrl30);
+        });
+
+        console.log(this.artistTracksResults);
+        resolve([]);
+      })
+      .catch(error =>  {
+        console.error(`Error: ${error.status} ${error.statusText}`);
+        reject();
+      });
+    });
+
+    return promise;
+  }
+
+  getAlbumsByArtistId(artistId: string): Promise<SearchArtistAlbum[]> {
+
+    let promise = new Promise<SearchArtistAlbum[]>((resolve, reject) => {
+      
+      let apiGetAlbumsUrl: string = `${this.apiRootValue}/lookup?id=${artistId}&entity=album`;
+
+     this.httpClient.jsonp(apiGetAlbumsUrl, 'callback')
+      .toPromise()
+      .then((response: any) => {
+
+        //remove the first item in the array as its not information about the Albums
+        response.results.shift();
+
+        // map here is an array func (works like the forEach)
+        this.artistAlbumsResults = response.results.map((item: { artistId: string, collectionCensoredName: string, collectionViewUrl: string, artworkUrl60: string }) => {
+          return new SearchArtistAlbum(item.artistId, item.collectionCensoredName, item.collectionViewUrl, item.artworkUrl60);
+        });
+
+        console.log(this.artistAlbumsResults);
+        resolve([]);
+      })
+      .catch(error =>  {
+        console.error(`Error: ${error.status} ${error.statusText}`);
+        reject();
+      });
+    });
+
+    return promise;
   }
 }

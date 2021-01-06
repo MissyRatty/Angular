@@ -1,0 +1,36 @@
+<div class="container-fluid">
+<form class="from-inline">
+    <div class="form-group">
+        <input type="search" class="form-control" placeholder="Enter text to search" #searchText/>
+    </div>
+    
+    <button class="btn btn-primary" (click)="onSearch(searchText.value)">Search
+    </button>
+</form>
+
+<br>
+
+<div class="text-center">
+    <p class="lead" *ngIf="isLoading">
+        <strong class="text-info">Loading....</strong>
+    </p>
+</div>
+
+<!-- this shows the track image & and track name which when clicked takes you to the track on iTunes -->
+<!-- <ul class="list-group">
+    <li class="list-group-item" *ngFor="let track of searchService.results2">
+        <img [src]="track.thumbnail" class="img-circle"/>
+        <a target="_blank" href="{{track.trackLink}}">{{track.trackName}}</a>
+    </li>
+</ul> -->
+
+<!-- Notes
+    adding '/artist' in the routerLink tells Angular that you want this to redirect relative to the root address
+without it, angular will prepend the path for the ArtistComponent to whatever url is in the address bar at that point in time -->
+<div class="list-group">
+    <a [routerLink]="['/artist', track.artistId]" class="list-group-item list-group-item-action" *ngFor="let track of searchResults">
+        <img [src]="track.thumbnail" class="img-circle"/>
+       {{track.trackName}} <span class="text-muted">by</span> {{track.artistName}}
+    </a>
+</div>
+</div>

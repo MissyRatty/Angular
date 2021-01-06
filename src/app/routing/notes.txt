@@ -1,0 +1,100 @@
+Why Routing (Changing the URL in the address bar):
+1. So that refreshing a page doesn't reset the entire application back to the start
+2. Users can bookmark a particular position in the application and they could revisit it when they want
+3. Users can copy a link address and share it with others so they can also see the same view as the user.
+
+Note:
+a url in your application provides the current state of your application.
+
+In Angular, we can do Client-Side Routing (i.e.: when a url changes in the browser, the app running instance running in the browser, 
+handles the change and not make a server request to handle the change) 
+
+instead of Server-side routing(sending url change requests to the server for the server to handle the change)
+
+Angular is a Single Page application because essentially there is only ever one page returned from the server (the html, js, css)
+but any further modifications of the page is handled by the client (in the browser)
+
+Usually the client application might need to make a few API calls to get the information it needs to display a new page.
+
+You may need to think about Url rewriting when you host your Angular App on a web server
+
+Notes from Dave on Routing:
+
+- What happens in Angular's routing when someone presses reload when they're on a "page that's not a page", or they bookmark a "page that's not a page"...
+
+- If you don't set the server up properly, then it sends a 404 when someone reloads an angular "page" that's been spoofed by the router, 
+  'cos the browser actually makes a request to the server for a page that doesn't actually match any content that it's hosting.
+
+- A URL Rewriter intercepts those requests, and routes them on the server back to the location where the main application is served from. 
+- Then the browser either downloads the app from there, or loads it back in from its local cache if it's already downloaded it before...
+- and then the app picks up what's in the address bar and its local router kicks in and loads the required component.
+
+
+// Notes:
+
+- Concept of Routing in angular is called Component router
+- Things to know in this section:
+
+  1. define & configure routes in Angular:
+     - import Routes & RouterModule from angular/router
+     - create your routes as const routes: Routes = [
+       { path: '', component: ComponentName },
+       { path: 'search', component: ComponentName }
+     ]
+
+     - a path with the empty string will be your default page
+
+     - In @NgModule({ imports: [ RouterModule.forRoot(routes, {useHash: false/true)} ]})
+        if useHash is true, the base url will be appended with a hash (#), its false by default
+
+     - In your parent component (e.g.: app.component.html), add the <router-outlet></router-outlet> directive (tag)
+       This tells Angular where to render the view that corresponds to the url 
+
+     - a path could be configured to redirectTo another path like:
+         { path: '', redirectTo: 'home', pathMatch: 'full' }  // use this for paths that are empty strings to tell angular to match the full empty string path and not partially
+
+         { path: 'find', redirectTo: 'search' }
+         { path: 'home', component: HomeComponent }
+         { path: 'search', component: SearchComponent }
+
+     - you can use the { path: '**', component: ErrorComponent } to direct all unknown url requests to your error pages.    
+
+
+
+  2. navigate through routes without sending a request to the server to display the view for the new route (page)
+
+  3. path location strats (pros & cons)
+
+  4. urls with variables can be constructed by using parameterised routes:
+     - register components with parameterised routes as: 
+        const routes: Routes = [
+          { path: 'search/:id', component: SearchComponent }
+        ];
+
+        The use of the ":" infront of "id" signifies that id is a variable (parameter) in the route (url)
+
+     - Note: non-parameterised routes take precedence over parameterised ones:
+        e.g.:    
+        const routes: Routes = [
+          { path: 'search/:id', component: SearchComponent }, 
+          { path: 'search/foo', component: FooComponent }
+        ];
+
+     - to pass the params in the url and access them in your component, inject the ActivatedRoute service into your component's constructor  
+
+     Note:
+     - Use ActivatedRoute to get the query param values in your url
+     - Use Router to navigate to urls (using link params)
+      
+
+  5. embedded routes (nested routes):
+     - when routing to a child route nested in a parent component, if you want to route to a url relative to the root url, you register it with:
+        [routerLink] = "['/pathName', QueryStringParamValues]"
+
+
+
+  6. limit access to certain pages (urls) using router guards
+
+
+
+

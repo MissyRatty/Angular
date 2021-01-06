@@ -5,7 +5,7 @@
  * Copyright 2011-2016 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */ /*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */
-html {
+ html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -3436,7 +3436,7 @@ input[type="submit"].btn-block {
 .nav-pills .nav-link.active:hover {
   color: #fff;
   cursor: default;
-  background-color: #0275d8;
+  background-color: #0275d8 !important;
 }
 .nav-stacked .nav-item {
   display: block;
@@ -5372,7 +5372,7 @@ a.bg-danger:hover {
 }
 .bg-inverse {
   color: #fff !important;
-  background-color: #373a3c !important;
+  background-color: #245269 !important;
 }
 a.bg-inverse:focus,
 a.bg-inverse:hover {

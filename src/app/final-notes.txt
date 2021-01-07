@@ -1,0 +1,6 @@
+Things to Investigate: 
+1. Promises vs observables
+2. Resolve and CanLoad Guard types
+3. Lazy loading modules in angular
+4. Angular Universal (run angular on browser and server side) = universal.angular.io
+   - pages can be cached on the server side (works with the path location strategy)

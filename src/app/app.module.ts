@@ -54,6 +54,12 @@ import { ErrorComponent } from './routing/error/error.component';
 import { ArtistComponent } from './routing/artist/artist.component';
 import { ArtistTrackListComponent } from './routing/artist-track-list/artist-track-list.component';
 import { ArtistAlbumListComponent } from './routing/artist-album-list/artist-album-list.component';
+import { AlwaysAuthGuard } from './guards/always-auth.guard';
+import { UserService } from './guards/services/user.service';
+import { OnlyLoggedInUsersGuard } from './guards/only-logged-in-users.guard';
+import { AlwaysAuthChildrenGuard } from './guards/always-auth-children.guard';
+import { UnsearchedTermGuard } from './guards/unsearched-term.guard';
+import { ArtistVideoListComponent } from './routing/artist-video-list/artist-video-list.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +103,7 @@ import { ArtistAlbumListComponent } from './routing/artist-album-list/artist-alb
     ArtistComponent,
     ArtistTrackListComponent,
     ArtistAlbumListComponent,
+    ArtistVideoListComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule, HttpClientModule, HttpClientJsonpModule],
   providers: [
@@ -106,7 +113,12 @@ import { ArtistAlbumListComponent } from './routing/artist-album-list/artist-alb
     JokeService, 
     { provide: MAX_JOKES_TOKEN, useValue: 4 },
     HttpClient,
-    SearchService
+    SearchService,
+    AlwaysAuthGuard,
+    OnlyLoggedInUsersGuard,
+    AlwaysAuthChildrenGuard,
+    UnsearchedTermGuard,
+    UserService
   ], //these services will be available in the app top level injector
   bootstrap: [AppComponent], // root component for our application
 })

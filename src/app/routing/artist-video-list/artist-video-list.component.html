@@ -1,0 +1,14 @@
+
+<div class="text-center">
+    <p class="lead" *ngIf="isLoading">
+        <strong class="text-info">Loading....</strong>
+    </p>
+</div>
+    
+<!-- this shows the video image & video name which when clicked takes you to the video on iTunes -->
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let video of artistVideoResults">
+        <img [src]="video.VideoArtworkUrl" class="img-thumbnail"/>
+        <a target="_blank" href="{{video.VideoUrl}}">{{video.VideoName}}</a>
+    </li>
+</ul>

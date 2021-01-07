@@ -90,11 +90,4 @@ Notes from Dave on Routing:
   5. embedded routes (nested routes):
      - when routing to a child route nested in a parent component, if you want to route to a url relative to the root url, you register it with:
         [routerLink] = "['/pathName', QueryStringParamValues]"
-
-
-
-  6. limit access to certain pages (urls) using router guards
-
-
-
-
+  

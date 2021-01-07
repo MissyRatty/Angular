@@ -40,6 +40,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     // doing it this way, will make your url something like this: http://localhost:4200/#/search;term=love
     // this.router.navigate(['search', { term: searchText }]);
 
+    this.isLoading = true;
+
     this.router.navigate(['search', searchText]);
   }
 
@@ -54,6 +56,13 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.searchResults = this.searchService.results2;
         });
+  }
+
+  canDeactivate(): boolean {
+
+    // we want to prompt user if they are on the search page but didn't search for anything by not clicking the search button
+    // its not a very good example though lol
+    return this.isLoading;
   }
 
   ngOnDestroy(): void {

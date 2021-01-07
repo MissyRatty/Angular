@@ -10,3 +10,6 @@ What to Know:
 
 How to open Chrome window with CORS disabled
 - run this in cmd prompt: "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
+
+
+NOTE: a promise is always async but observable can be async | sync

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { SearchArtistAlbum } from '../models/search-artist-album.model';
 import { SearchArtistTrack } from '../models/search-artist-track.model';
+import { SearchArtistVideo } from '../models/search-artist-video.model';
 import { SearchArtistItem } from '../models/search-artist.model';
 import { SearchItem } from '../models/search-item.model';
 
@@ -21,6 +22,7 @@ export class SearchService {
   artistDetailsResults: SearchArtistItem[] = [];
   artistTracksResults: SearchArtistTrack[] = [];
   artistAlbumsResults: SearchArtistAlbum[] = [];
+  artistVideosResults: SearchArtistVideo[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -154,9 +156,15 @@ export class SearchService {
       .toPromise()
       .then((response: any) => {
 
+        // // remove first item in the array as its not information about the tracks
+        response.results.shift();
+
+        //instead of shift maybe we could select where "wrapperType": "track"
+        //let tracks = response.results.reduce((allTracks: any, item: any) => (item.wrapperType == 'track' && allTracks.push(item.value), allTracks), []);
+
         // map here is an array func (works like the forEach)
-        this.artistTracksResults = response.results.map((item: { trackName: string, artistName: string, trackViewUrl: string, artworkUrl30: string, artistId: string }) => {
-          return new SearchArtistTrack(item.artistId, item.trackName, item.trackViewUrl, item.artworkUrl30);
+        this.artistTracksResults = response.results.map((item: { trackName: string, artistName: string, trackViewUrl: string, artworkUrl60: string, artistId: string }) => {
+          return new SearchArtistTrack(item.artistId, item.trackName, item.trackViewUrl, item.artworkUrl60);
         });
 
         console.log(this.artistTracksResults);
@@ -190,6 +198,36 @@ export class SearchService {
         });
 
         console.log(this.artistAlbumsResults);
+        resolve([]);
+      })
+      .catch(error =>  {
+        console.error(`Error: ${error.status} ${error.statusText}`);
+        reject();
+      });
+    });
+
+    return promise;
+  }
+
+  getVideosByArtistId(artistId: string): Promise<SearchArtistVideo[]> {
+
+    let promise = new Promise<SearchArtistVideo[]>((resolve, reject) => {
+      
+      let apiGetVideosUrl: string = `${this.apiRootValue}/lookup?id=${artistId}&entity=musicVideo`;
+
+     this.httpClient.jsonp(apiGetVideosUrl, 'callback')
+      .toPromise()
+      .then((response: any) => {
+
+        //remove the first item in the array as its not information about the videos
+        response.results.shift();
+
+        // map here is an array func (works like the forEach)
+        this.artistVideosResults = response.results.map((item: { trackName: string, trackViewUrl: string, artworkUrl100: string }) => {
+          return new SearchArtistVideo(artistId, item.trackName, item.trackViewUrl, item.artworkUrl100);
+        });
+
+        console.log(this.artistVideosResults);
         resolve([]);
       })
       .catch(error =>  {

@@ -1,0 +1,91 @@
+1.  limit access to certain pages (urls) using router guards:
+     - 4 main types of Router guards: 
+     
+     NB: guards can return either true/false dependent on if the user is allowed access to routes
+         sometimes they can return an Observabe or a promise which can then be resolved to a true/false value (during async).
+
+       1. CanActivate: checks if user can visit a route/urls
+          
+       2. CanActivateChild: checks if user can visit a route Children
+       3. CanDeactivate: checks if user can exist a route (e.g.: use this guard to warn users if they are leaving/ navigating away from a page without maybe saving their changes)
+
+       // these two need lazy loading before they can be used
+       // Read more about them later
+       4. CanLoad: checkes if the user can route to a module that's lazy loaded
+
+       5. Resolve: lets us retrieve data needed to show the route before the route is activated / seen (also needs lazy loading)
+
+
+- router guards can be implemented as classes:
+  . You can use the Angular Cli cmd: ng g g NameOfGuard
+  . Angular will ask you the type of guard you want to create, i.e.: CanActivate, CanActivateChild, CanDeactivate & CanLoad
+  . Register Guard in app.module's @NgModule({ providers: [NameOfGuardAsTheInjectorToken]})
+  . Apply the Guard to the expected routes depending on the type of Guard:
+     - if Guard is for Parent/Main components route, use the canActivate: [NameOfGuard]
+     - if Guard is for Children routes of the parent component, use the canActivateChild : [NameOfGuardForChildComponents]
+
+
+   Guard Funcs can accept instances of the ff params:
+   - component: Component: the actual component that will be displayed in the page (so the component you wish to put the Guard around / on)
+                           this is usually with the CanDeactivate Guard which is generic so a Type of Component can be passed to it like:
+                           export class MyGuardClass implements CanDeactivate<SearchComponent> {}
+   - route: ActivatedRouteSnapshot: The future activatedRoute (used to get query param values from route) that will be activated (displayed) if the current Guard passes. (use the params prop on this object to get the route parameters)
+   - state: RouterStateSnapshot: The future router (used for navigations) state if the guard passes and we can get the url we wish to navigate to from its URL property
+
+Summary:
+        
+- Use Guards to implement AuthN/AuthZ (restrict access to pages)
+- Guards are just classes and so we can inject any other class into them (e.g.: services etc)
+- Guards return a boolean | Promise<boolean> | Observable<boolean>
+- A Route can be configured with multiple Guards that will be checked in order of how they are added to the route
+   i.e.: First in, First Checked
+
+
+
+
+ ROUTING STRATEGIES:
+
+ - Hash location strategy: 
+   1. use the '{useHash: true}' in [RouterModule.forRoot(routes, {useHash: true})] to add to tell angular to register routes with the hash (#) fragment
+   2. SPAs use the hash fragment for client-side routing (that is the bits after from the # to the end of the url during a page request will never get sent to the server)
+      It will always be redirecting to certain sections in the page within the browser but never requested from the server. e
+
+  Example: 
+
+  If the page needed to redirect to localhost:4040/#/search, the browser will use the #/search part of the url to work out which part of the main page already rendered from the Server
+  it needs to redirect to (or have in focus for the user).
+
+  The url request (localhost:4040/#/search) will not be forwarded to the server. e
+
+  Good:
+  - url with the hash fragment can be bookmarked as it stores the state of the page at a particular point in time of the web page's lifecycle
+  - the hash fragment is never sent to the server(it will only provide us with the root page and that's it) so there wouldn't be any confusion to the Server
+  - it can be changed at runtime via JavaScript
+   
+
+
+- Path location strategy:
+  1. Default route strategy in Angular
+  2. Uses the Html5 API pushstate
+  3. We can use pushstate to change the url without triggering the request to be sent to the server
+  4. To activate this: just register your routes without adding the '{useHash: true}' in routing like: [RouterModule.forRoot(routes)] 
+
+  Good:
+  - The url looks like any other url (as it doesn't get appended with the #) and can be bookmarked
+  - Browser doesn't send a request to the server during redirection as its using the pushstate and does redirecting/routing on the client-side
+
+  Bad:
+  - when you refresh a page, it tries to send a request to the Server to provide the state of the page and this fails
+    as the server will have no idea of what e.g.: localhost:4040/search/foo/moo/loo means as this was a routing configured on the client-side (browser)
+
+
+ 
+
+
+
+
+     
+
+
+
+

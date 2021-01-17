@@ -3,7 +3,7 @@
         <div class="card-body">
             <h4> {{ artistDetails?.artistName }} <span class="tag tag-success">{{ artistDetails?.artistGenreName }}</span>
             </h4>
-            
+
             <hr/>
             <footer>
                 <ul class="nav nav-pills">
@@ -22,18 +22,18 @@
             </footer>
         </div>
     </div>
-    
+
     <div class="m-t-1">
         <router-outlet></router-outlet>
     </div>
-    
+
 </div>
 
 
 <!-- NB: that the routerLinks for the tracks and albums  use the ./tracks or ./albums (which is the same as just tracks or albums)
     and this is because as the tracks & albums components are children routes of the Artist components
-    I want it to have the absolute url: 
-      - http://localhost:4200/#/artist/someArtistId/tracks or 
+    I want it to have the absolute url:
+      - http://localhost:4200/#/artist/someArtistId/tracks or
       - http://localhost:4200/#/artist/someArtistId/albums
 
       INstead of http://localhost:4200/#/tracks or http://localhost:4200/#/albums -->

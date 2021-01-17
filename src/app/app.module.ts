@@ -1,5 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientJsonpModule,
+  HttpClientModule,
+} from '@angular/common/http';
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -60,6 +64,7 @@ import { OnlyLoggedInUsersGuard } from './guards/only-logged-in-users.guard';
 import { AlwaysAuthChildrenGuard } from './guards/always-auth-children.guard';
 import { UnsearchedTermGuard } from './guards/unsearched-term.guard';
 import { ArtistVideoListComponent } from './routing/artist-video-list/artist-video-list.component';
+import { EmailDomainValidatorDirective } from './custom-form-validators/email-domain-validator.directive';
 
 @NgModule({
   declarations: [
@@ -104,21 +109,42 @@ import { ArtistVideoListComponent } from './routing/artist-video-list/artist-vid
     ArtistTrackListComponent,
     ArtistAlbumListComponent,
     ArtistVideoListComponent,
+    EmailDomainValidatorDirective,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, CommonModule, ReactiveFormsModule, HttpClientModule, HttpClientJsonpModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
+  ],
   providers: [
-    SimpleService, 
-    OtherService, 
-    SimpleService2, 
-    JokeService, 
-    { provide: MAX_JOKES_TOKEN, useValue: 4 },
+    SimpleService,
+    OtherService,
+    SimpleService2,
+    JokeService,
+    {
+      provide: MAX_JOKES_TOKEN,
+      useValue: 4,
+    },
+
+    // Option 1: of creating a configurable custom validator for template-driven forms
+    // added this bit to support the custom validator for template-driven forms
+    // this is to help create a custom validator that can accept a config value by using the CustomValidatorFactory
+    // a factory which when called, returns a customValidator Function
+    {
+      provide: 'RequiredDomain',
+      useValue: 'mail.com',
+    },
     HttpClient,
     SearchService,
     AlwaysAuthGuard,
     OnlyLoggedInUsersGuard,
     AlwaysAuthChildrenGuard,
     UnsearchedTermGuard,
-    UserService
+    UserService,
   ], //these services will be available in the app top level injector
   bootstrap: [AppComponent], // root component for our application
 })

@@ -7,47 +7,39 @@ import { SearchService } from 'src/app/angular-core-http-api/http-with-promises-
 @Component({
   selector: 'app-artist-album-list',
   templateUrl: './artist-album-list.component.html',
-  styleUrls: ['./artist-album-list.component.css']
+  styleUrls: ['./artist-album-list.component.css'],
 })
 export class ArtistAlbumListComponent implements OnInit, OnDestroy {
-  
   private subscription: Subscription;
-  private artistAlbums: SearchArtistAlbum[] = [];
+  artistAlbums: SearchArtistAlbum[] = [];
 
-  private isLoading: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
-    private activatedRoute: ActivatedRoute, 
-    private searchService: SearchService) { 
-
-    }
+    private activatedRoute: ActivatedRoute,
+    private searchService: SearchService
+  ) {}
 
   ngOnInit(): void {
-
-    this.subscription = this.activatedRoute.parent.params
-    .subscribe((parentParams) => {
-
-      if(parentParams['id']) {
-
-        this.searchArtistAlbums(parentParams['id']);
+    this.subscription = this.activatedRoute.parent.params.subscribe(
+      (parentParams) => {
+        if (parentParams['id']) {
+          this.searchArtistAlbums(parentParams['id']);
+        }
       }
-    })
+    );
   }
 
   searchArtistAlbums(artistId: string): void {
-
     this.isLoading = true;
 
-    this.searchService.getAlbumsByArtistId(artistId)
-    .then(_ => {
-
+    this.searchService.getAlbumsByArtistId(artistId).then((_) => {
       this.isLoading = false;
       this.artistAlbums = this.searchService.artistAlbumsResults;
-    })
+    });
   }
 
   ngOnDestroy(): void {
-
     this.subscription.unsubscribe();
   }
 }

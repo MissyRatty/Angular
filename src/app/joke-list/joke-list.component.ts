@@ -35,7 +35,7 @@ export class JokeListComponent
   @ContentChild(JokeComponent) jokeContentChild: JokeComponent;
   @ContentChildren(JokeComponent) jokeContentChildren: QueryList<JokeComponent>;
 
-  constructor(private jokeService: JokeService) {
+  constructor(public jokeService: JokeService) {
     //this will log out undefined:
     //since by this time, the children of this component's view wouldn't have been rendered yet
     //Angular renders in a Tree-Down approach, so when this parent Joke-List component is getting rendered,
@@ -55,9 +55,7 @@ export class JokeListComponent
         'What kind of cheese do you use to disguise a small horse?',
         'boo Mask-a-pony, hell damn !!! (Mascarpone)'
       ),
-      new Joke(
-        'Just for Laughs?', 
-        'hell I used to watch the damn thing.lol')
+      new Joke('Just for Laughs?', 'hell I used to watch the damn thing.lol'),
     ];
   }
 
@@ -127,7 +125,6 @@ export class JokeListComponent
   //     this.jokes.splice(jokeToDeleteIndex, 1);
   //   }
   // }
-
 }
 
 //view child are elements used within the component itself, We use the ViewChild decorator to access these view children

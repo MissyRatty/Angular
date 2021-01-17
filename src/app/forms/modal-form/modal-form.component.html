@@ -2,7 +2,7 @@
 <form [formGroup]="myForm" novalidate (ngSubmit)="onFormSubmit()">
     <fieldset formGroupName="name">
       <div class="form-group" [ngClass]="{
-        'has-success': firstName.valid && (firstName.dirty || firstName.touched), 
+        'has-success': firstName.valid && (firstName.dirty || firstName.touched),
         'has-danger': firstName.invalid && (firstName.dirty || firstName.touched)}">
         <label>First Name</label>
         <input type="text" class="form-control" formControlName="firstName">
@@ -11,9 +11,9 @@
           <p *ngIf="firstName.errors.maxlength">First name cannot be more than 50 characters</p>
         </div>
       </div>
-  
+
       <div class="form-group" [ngClass]="{
-        'has-success': lastName.valid && (lastName.dirty || lastName.touched), 
+        'has-success': lastName.valid && (lastName.dirty || lastName.touched),
         'has-danger': lastName.invalid && (lastName.dirty || lastName.touched)}">
         <label>Last Name</label>
         <input type="text" class="form-control" formControlName="lastName">
@@ -23,10 +23,10 @@
         </div>
       </div>
     </fieldset>
-  
-    <div class="form-group" 
+
+    <div class="form-group"
          [ngClass]="{
-           'has-success': email.valid && (email.dirty || email.touched), 
+           'has-success': email.valid && (email.dirty || email.touched),
            'has-danger': email.invalid && (email.dirty || email.touched)
           }">
       <label>Email</label>
@@ -34,21 +34,22 @@
       <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
         <p *ngIf="email.errors.required">Email is required</p>
         <p *ngIf="email.errors.pattern">Email must have the @ character</p>
+        <p *ngIf="email.errors.emailDomain">Email must have a  {{ email.errors.expectedDomain }} domain</p>
       </div>
 
-      <pre>Dirty? (false if user hasn't changed value of control | True when user changes value of control )? 
+      <pre>Dirty? (false if user hasn't changed value of control | True when user changes value of control )?
          <strong>
              {{myForm.controls.email.dirty}}
          </strong>
       </pre>
 
-      <pre>Pristine? (false if user has changed value | True when user hasn't changed value ) ? 
+      <pre>Pristine? (false if user has changed value | True when user hasn't changed value ) ?
           <strong>
               {{myForm.controls.email.pristine}}
           </strong>
       </pre>
 
-      <pre>Touched? (True if user focused on the control and then focused unto sumfin else | else its false)? 
+      <pre>Touched? (True if user focused on the control and then focused unto sumfin else | else its false)?
           <strong>
             {{myForm.controls.email.touched}}
           </strong>
@@ -57,10 +58,10 @@
       <pre>Untouched? (True if user focus has never been on the control | False if user focus has been on the control before) ?
           <strong>
             {{myForm.controls.email.untouched}}
-          </strong> 
+          </strong>
       </pre>
 
-      <pre>Valid? (True if form validation has no errors Or form control has no validation checks | False if form is invalid)? 
+      <pre>Valid? (True if form validation has no errors Or form control has no validation checks | False if form is invalid)?
         <strong>
           {{myForm.controls.email.valid}}
         </strong>
@@ -69,13 +70,13 @@
     <pre>Invalid? (True if form validation has errors | False if form is valid) ?
         <strong>
           {{myForm.controls.email.invalid}}
-        </strong> 
+        </strong>
     </pre>
     </div>
-  
-    <div class="form-group" 
+
+    <div class="form-group"
         [ngClass]="{
-          'has-success': password.valid && (password.dirty || password.touched), 
+          'has-success': password.valid && (password.dirty || password.touched),
           'has-danger': password.invalid && (password.dirty || password.touched)
         }">
       <label>Password</label>
@@ -85,10 +86,10 @@
         <p *ngIf="password.errors.minlength">Password must be at least 8 characters long</p>
       </div>
     </div>
-  
-    <div class="form-group" 
+
+    <div class="form-group"
         [ngClass]="{
-          'has-success': language.valid && (language.dirty || language.touched), 
+          'has-success': language.valid && (language.dirty || language.touched),
           'has-danger': language.invalid && (language.dirty || language.touched)
          }">
       <label>Language</label>

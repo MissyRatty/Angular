@@ -7,45 +7,40 @@ import { SearchService } from 'src/app/angular-core-http-api/http-with-promises-
 @Component({
   selector: 'app-artist-track-list',
   templateUrl: './artist-track-list.component.html',
-  styleUrls: ['./artist-track-list.component.css']
+  styleUrls: ['./artist-track-list.component.css'],
 })
 export class ArtistTrackListComponent implements OnInit, OnDestroy {
-
   private subscription: Subscription;
-  private artistTracks: SearchArtistTrack[];
+  artistTracks: SearchArtistTrack[];
 
-  private isLoading: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
-    private activatedRoute: ActivatedRoute, 
-    private searchService: SearchService) { 
+    private activatedRoute: ActivatedRoute,
+    private searchService: SearchService
+  ) {
+    this.subscription = this.activatedRoute.parent.params.subscribe(
+      (parentParams) => {
+        console.log(parentParams);
 
-    this.subscription = this.activatedRoute.parent.params
-    .subscribe(parentParams => { 
-
-      console.log(parentParams);
-
-      // perform search
-      if(parentParams['id']) {
-        this.searchArtistTracks(parentParams['id']);
+        // perform search
+        if (parentParams['id']) {
+          this.searchArtistTracks(parentParams['id']);
+        }
       }
-    })
+    );
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   searchArtistTracks(artistId: string): void {
-
     this.isLoading = true;
-    this.searchService.getTracksByArtistId(artistId)
-    .then(() => {
-
+    this.searchService.getTracksByArtistId(artistId).then(() => {
       this.isLoading = false;
 
       console.log(this.searchService.artistTracksResults);
       this.artistTracks = this.searchService.artistTracksResults;
-    })
+    });
   }
 
   ngOnDestroy(): void {

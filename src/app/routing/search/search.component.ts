@@ -7,35 +7,30 @@ import { SearchService } from 'src/app/angular-core-http-api/http-with-promises-
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit, OnDestroy {
-  private isLoading: boolean = false;
+  isLoading: boolean = false;
   private subscription: Subscription;
 
-  private searchResults: SearchItem[] = [];
+  searchResults: SearchItem[] = [];
 
   constructor(
-    private searchService: SearchService,
+    public searchService: SearchService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) { 
-
-      this.subscription = this.activatedRoute.params
-      .subscribe(params => {
-
-        if(params['term']) {
-
-          // lets perform the search here
-          this.search(params['term']);
-        }
-      });
-    }
-
-  ngOnInit(): void {
+    private router: Router
+  ) {
+    this.subscription = this.activatedRoute.params.subscribe((params) => {
+      if (params['term']) {
+        // lets perform the search here
+        this.search(params['term']);
+      }
+    });
   }
 
-  onSearch(searchText: string) {
+  ngOnInit(): void {}
 
+  onSearch(searchText: string) {
     // redirecting to a route that has optional query params
     // doing it this way, will make your url something like this: http://localhost:4200/#/search;term=love
     // this.router.navigate(['search', { term: searchText }]);
@@ -46,20 +41,16 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   search(searchText: string): void {
+    this.isLoading = true;
+    console.log(`searching for ${searchText}`);
 
-      this.isLoading = true;
-      console.log(`searching for ${searchText}`);
-
-      this.searchService.handleSearchAsPromiseJsonP(searchText)
-        .then(_ => {
-
-          this.isLoading = false;
-          this.searchResults = this.searchService.results2;
-        });
+    this.searchService.handleSearchAsPromiseJsonP(searchText).then((_) => {
+      this.isLoading = false;
+      this.searchResults = this.searchService.results2;
+    });
   }
 
   canDeactivate(): boolean {
-
     // we want to prompt user if they are on the search page but didn't search for anything by not clicking the search button
     // its not a very good example though lol
     return this.isLoading;
@@ -68,5 +59,4 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
 }

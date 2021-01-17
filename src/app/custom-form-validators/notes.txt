@@ -1,0 +1,93 @@
+- How built-in validators work for both Model driven  & Template driven forms:
+   A. These are:
+        1. required
+        2. minlength
+        3. maxlength
+        4. pattern
+
+    B. can be used as:
+       - funcs  passed into the FormControl constructor in model driven forms.
+           e.g.: new FormControl('', Validators.required)
+
+       -  as directives in template driven forms
+           e.g.: <input name="firstName" type="password" ngModel required />
+
+    C. for the Angular built -in validators to work, the html elements on the view must have the ff attributes on them:
+       - formControlName => used in model-driven forms.
+          e.g.: <input type="search" [formControlName]="searchField" />
+
+       - formControl => used in reactive-model-driven forms.
+          e.g.: <input type="search" [formControl]="searchField" />
+
+       - ngModel       => used in template-driven forms.
+         e.g.: <input type="search" [(ngModel)]="searchField" />
+
+
+         Note:
+         - template-driven forms are essentially model-driven forms but in this case the model creation is controlled/done by the template
+           (the template decides when/how to create the model for the form).
+
+         - in model-driven, an instance of the formControl is created and assigned validators (if needed)
+            e.g.: myTextBox: FormControl = new FormControl('', [Validators.required, ...])
+
+         - in the template-driven form, the html element that needs the validation will have the validator attribute appended to it like:
+            e.g.: <input type="password" required />
+
+            Under the hood, Angular will create special validators with matching selectors to required ( same for: minlength, maxlength & pattern).
+            the FormsModule when imported in NgModule will make sure that whenever Angular sees e.g.: 'required' in the html, it will attach it
+            to an instance of an Angular directive called RequiredValidator.
+
+            This Angular directive uses the same Validators.required func that's used in the model-driven forms
+
+- Validators are just funcs, that take in an instance of a FormControl as input argument and returns null if the validation is successful & an error object if it fails
+
+
+
+
+
+- Creating hardcoded custom validators for both Model driven  & Template driven forms
+   - for model-driven forms:
+      1. add the custom validator function to the list/array of validators for the formControl like:
+          email: FormControl = new FormControl('', [customValidatorFuncNameHere])
+
+   - for template-driven forms:
+       1. create a directive that provides the customValidatorFunc by appending it to the list of NG_Validators available to the application instance, like so:
+            selector: '[emailDomain] [ngModel]', // this says, in the html if you see the attributes emailDomain and ngModel on an element, use the custom validator(EmailDomainValidator)
+            providers: [
+                         {
+                             provide: NG_VALIDATORS,
+                             useValue: EmailDomainValidator,
+                            // this tells the DI framework to add the resolved instance/value of the validatorFunc(EmailDomainValidator)
+                            // to the list of resolved Validators in NG_Validators
+                             multi: true
+                         }
+                       ],
+
+         2. add the selector name of the custom directive as an attribute on the html element that requires the validation:
+              <input type="email" [(ngModel)]="signUpModel.email" emailDomain />
+
+
+
+- Create configurable custom validators
+  To do this, create a customValidatorFactory that returns a customValidatorFunc.
+  The factory will accept the argument(which will be the configurable value to pass down to the customValidatorFunction)
+  IN the model-driven form:
+        validators = [NameOfCustomValidatorClass.StaticMethod/FuncName(param)]
+                   => email: FormControl = new FormControl('', [CustomValidators.emailDomain('gmail.com')])
+
+
+  IN the template-driven form:
+  1. Option 1:
+      - provide the configurable param in the NgModule providers as a value => providers: [{ provide: 'TokenName', useValue: 'ConfigValueIWishToRegister'}]
+      - Inject the configured value in the NgModule into the constructor of the Directive used to bind the customValidator to the html element on the template-driven form
+      - Have a Validate method on the CustomValidatorDirective which returns a ValidationErrors (a type for a func that takes in a control: FormControl | AbstractControl)
+      - Call the customValidator func on the CustomeValidatorFactory in the constructor of the DirectiveClass and  pass it the configured value
+      - Provide the DirectiveClass as the customValidator in the providers of the Directive
+
+
+  2. Option 2: uses Template property binding (More robust)
+      - here the directive on the html element is passed an input prop e.g.: <input emailDomain="facebook.com" />
+      - Have an Input('sameNameasDirectiveSelector')
+      - Then onNgChanges, check that the directive has been passed a config value by just checking that the Input is not undefined
+      - if the Input prop has a value, call the CustomValidatorFactory.StaticFunction (which will return a ValidatorFunc) and pass it the Input prop value as the configured value
+

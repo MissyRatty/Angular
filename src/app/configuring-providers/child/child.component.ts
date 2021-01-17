@@ -4,13 +4,10 @@ import { SimpleService2 } from '../simple-service';
 @Component({
   selector: 'app-child',
   templateUrl: './child.component.html',
-  styleUrls: ['./child.component.css']
+  styleUrls: ['./child.component.css'],
 })
 export class ChildComponent implements OnInit {
+  constructor(public service: SimpleService2) {}
 
-  constructor(private service: SimpleService2) { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

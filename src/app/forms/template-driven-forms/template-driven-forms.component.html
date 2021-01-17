@@ -1,11 +1,11 @@
 <form novalidate #mySecondForm="ngForm" (ngSubmit)="onFormSubmit()">
     <fieldset ngModelGroup="name">
       <div class="form-group" [ngClass]="{
-        'has-success': firstName.valid && (firstName.dirty || firstName.touched), 
+        'has-success': firstName.valid && (firstName.dirty || firstName.touched),
         'has-danger': firstName.invalid && (firstName.dirty || firstName.touched)}">
         <label>First Name</label>
-        <input type="text" class="form-control" name="firstName" 
-             [(ngModel)]="signUpModel.firstName" 
+        <input type="text" class="form-control" name="firstName"
+             [(ngModel)]="signUpModel.firstName"
              required
              maxlength="50"
              #firstName="ngModel">
@@ -15,13 +15,13 @@
             <p *ngIf="firstName.errors.maxlength">First name cannot be more than 50 characters</p>
         </div>
       </div>
-  
+
       <div class="form-group" [ngClass]="{
-        'has-success': lastName.valid && (lastName.dirty || lastName.touched), 
+        'has-success': lastName.valid && (lastName.dirty || lastName.touched),
         'has-danger': lastName.invalid && (lastName.dirty || lastName.touched)}">
         <label>Last Name</label>
-        <input type="text" class="form-control" name="lastName" 
-             [(ngModel)]="signUpModel.lastName" 
+        <input type="text" class="form-control" name="lastName"
+             [(ngModel)]="signUpModel.lastName"
              required
              maxlength="50"
              #lastName="ngModel">
@@ -29,67 +29,69 @@
         <div class="form-control-feedback" *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
             <p *ngIf="lastName.errors.required">Last name is required</p>
             <p *ngIf="lastName.errors.maxlength">Last name cannot be more than 50 characters</p>
-        </div> 
+        </div>
       </div>
     </fieldset>
-  
+
     <div class="form-group" [ngClass]="{
-        'has-success': email.valid && (email.dirty || email.touched), 
+        'has-success': email.valid && (email.dirty || email.touched),
         'has-danger': email.invalid && (email.dirty || email.touched)}">
       <label>Email</label>
-      <input type="email" class="form-control" name="email" 
-           [(ngModel)]="signUpModel.email" 
-           required 
+      <input type="email" class="form-control" name="email"
+           [(ngModel)]="signUpModel.email"
+           required
            pattern="[^ @]*@[^ @]*"
+          emailDomain="facebook.com"
            #email="ngModel">
       <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
         <p *ngIf="email.errors.required">Email is required</p>
         <p *ngIf="email.errors.pattern">Email must have the @ character</p>
-      </div>    
+        <p *ngIf="email.errors.emailDomain">Email must have a  {{ email.errors.expectedDomain }} domain</p>
+      </div>
 
-        <pre>Dirty? (false if user hasn't changed value of control | True when user changes value of control )? 
+        <pre>Dirty? (false if user hasn't changed value of control | True when user changes value of control )?
             <strong>
                 {{mySecondForm.form.controls.email?.dirty}}
             </strong>
         </pre>
-   
-        <pre>Pristine? (false if user has changed value | True when user hasn't changed value ) ? 
+
+        <pre>Pristine? (false if user has changed value | True when user hasn't changed value ) ?
              <strong>
                  {{mySecondForm.form.controls.email?.pristine}}
              </strong>
         </pre>
-   
-        <pre>Touched? (True if user focused on the control and then focused unto sumfin else | else its false)? 
+
+        <pre>Touched? (True if user focused on the control and then focused unto sumfin else | else its false)?
              <strong>
                {{mySecondForm.form.controls.email?.touched}}
              </strong>
         </pre>
-   
+
         <pre>Untouched? (True if user focus has never been on the control | False if user focus has been on the control before) ?
              <strong>
                {{mySecondForm.form.controls.email?.untouched}}
-             </strong> 
+             </strong>
         </pre>
-   
-        <pre>Valid? (True if form validation has no errors Or form control has no validation checks | False if form is invalid)? 
+
+        <pre>Valid? (True if form validation has no errors Or form control has no validation checks | False if form is invalid)?
            <strong>
              {{mySecondForm.form.controls.email?.valid}}
            </strong>
         </pre>
-   
+
        <pre>Invalid? (True if form validation has errors | False if form is valid) ?
            <strong>
              {{mySecondForm.form.controls.email?.invalid}}
-           </strong> 
+           </strong>
        </pre>
     </div>
-  
+
     <div class="form-group" [ngClass]="{
-        'has-success': password.valid && (password.dirty || password.touched), 
+        'has-success': password.valid && (password.dirty || password.touched),
         'has-danger': password.invalid && (password.dirty || password.touched)}">
       <label>Password</label>
-      <input type="password" class="form-control" name="password" 
-           [(ngModel)]="signUpModel.password" 
+      <input type="password" class="form-control" name="password"
+           [(ngModel)]="signUpModel.password"
            required
            minlength="8"
            #password="ngModel">
@@ -99,13 +101,13 @@
           <p *ngIf="password.errors.minlength">Password must be at least 8 characters long</p>
       </div>
     </div>
-  
+
     <div class="form-group" [ngClass]="{
-        'has-success': language.valid && (language.dirty || language.touched), 
+        'has-success': language.valid && (language.dirty || language.touched),
         'has-danger': language.invalid && (language.dirty || language.touched)}">
       <label>Language</label>
-      <select class="form-control" name="language" 
-           [(ngModel)]="signUpModel.language" 
+      <select class="form-control" name="language"
+           [(ngModel)]="signUpModel.language"
            required
            #language="ngModel">
         <option value="">Please select a language</option>
